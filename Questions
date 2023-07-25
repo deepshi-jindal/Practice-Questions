@@ -1,0 +1,84 @@
+Topological sort
+
+class Solution
+{
+	public:
+	//Function to return list containing vertices in Topological order. 
+	vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    // code here
+	    vector<int>ans;
+	    queue<int>q;
+	    vector<int>indegree(V,0);
+	    for(int i=0;i<V;i++){
+	        vector<int>data=adj[i];
+	        for(auto x:data){
+	            
+	        indegree[x]++;
+	        }
+	    }
+	    for(int i=0;i<V;i++){
+	        if(indegree[i]==0)
+	        q.push(i);
+	    }
+	    while(!q.empty()){
+	        int u=q.front();
+	        q.pop();
+	        ans.push_back(u);
+	        
+	        for(auto v:adj[u]){
+	            indegree[v]--;
+	            
+	            if(indegree[v]==0)
+	            q.push(v);
+	        }
+	    }
+	    return ans;
+	}
+};
+
+
+Median find from stream
+
+class MedianFinder {
+public:
+    priority_queue<int>s;
+    priority_queue<int,vector<int>,greater<int>>g;
+    MedianFinder() {
+        
+    }
+    
+    void addNum(int num) {
+        if(s.size()==0){
+            s.push(num);
+            return;
+        }
+        if(s.size()>g.size()){
+            if(num<s.top()){
+                g.push(s.top());
+                s.pop();
+                s.push(num);
+            }
+            else{
+                g.push(num);
+            }
+        }
+            else{
+                if(num<s.top()){
+                    s.push(num);
+                }
+                else{
+                    g.push(num);
+                    s.push(g.top());
+                    g.pop();
+                }
+            }
+      double findMedian() {
+     if(s.size()==g.size()){
+         return (double)(s.top()+g.top())/2.0;
+     }   
+        else
+        return s.top();
+    }
+};
+
